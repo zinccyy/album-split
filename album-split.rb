@@ -39,13 +39,15 @@ def main
 
   # got the tracks -> split mp3 file
   for i in 0..tracks.length
+    cmd = ""
     if i == (tracks.length - 1)
       # last track => only one param
-      `ffmpeg -i #{options[:audio_file]} -acodec copy -ss #{tracks[i].timestamp.to_seconds} \"#{tracks[i].name}.mp3\"`
+      cmd = "ffmpeg -i \"#{options[:audio_file]}\" -acodec copy -ss #{tracks[i].timestamp.to_seconds} \"#{tracks[i].name}.mp3\""
     else
       # two params
-      `ffmpeg -i #{options[:audio_file]} -acodec copy -ss #{tracks[i].timestamp.to_seconds} -to #{tracks[i+1].timestamp.to_seconds} \"#{tracks[i].name}.mp3\"`
+      cmd = "ffmpeg -i \"#{options[:audio_file]}\" -acodec copy -ss #{tracks[i].timestamp.to_seconds} -to #{tracks[i+1].timestamp.to_seconds} \"#{tracks[i].name}.mp3\""
     end
+    `#{cmd}`
   end
 end
 
